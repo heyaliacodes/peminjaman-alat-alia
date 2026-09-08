@@ -8,12 +8,14 @@ use App\Services\Keranjang;
 use App\Services\PeminjamanService;
 use Illuminate\Validation\ValidationException;
 use App\Services\StatistikPeminjamService;
+use App\Services\NotifikasiNavbarService;
 
 class PeminjamanController extends Controller
 {
     public function __construct(
         private PeminjamanService $layanan,
         private StatistikPeminjamService $layananStatistik,
+        private NotifikasiNavbarService $layananNotifikasi,
         private Keranjang $keranjang
     ) {
     }
@@ -60,7 +62,14 @@ class PeminjamanController extends Controller
             ->paginate(10);
         $statistik = $this->layananStatistik->ringkasan(auth()->user());
 
-        return view('peminjaman.saya', compact('daftarPeminjaman', 'statistik'));
+        $statistik = $this->layananStatistik->ringkasan(auth()->user());
+
+            $jumlahJatuhTempo = $this->layananNotifikasi
+                ->untukPengguna(auth()->user())['jatuh_tempo_saya'];
+
+        return view('peminjaman.saya', compact('daftarPeminjaman', 'statistik', 'jumlahJatuhTempo'));
+
+
     }
 
     public function rincian(Peminjaman $peminjaman)

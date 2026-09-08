@@ -16,9 +16,13 @@
                 <td>{{ $peminjaman->tgl_pinjam->format('d/m/Y') }}</td>
                 <td>
                     {{ $peminjaman->tgl_harus_kembali->format('d/m/Y') }}
-                    @if ($peminjaman->lewatTenggat())
-                        <span class="badge bg-danger">Lewat tenggat</span>
-                    @endif
+                        @if ($peminjaman->lewatTenggat())
+                            <span class="badge bg-danger">
+                                Terlambat {{ $peminjaman->tgl_harus_kembali->diffInDays(now()) }} hari
+                            </span>
+                        @elseif ($peminjaman->jatuhTempoBesok())
+                            <span class="badge bg-warning text-dark">Jatuh tempo besok</span>
+                        @endif
                 </td>
                 <td class="text-center">{{ $peminjaman->detail->count() }}</td>
                 <td>

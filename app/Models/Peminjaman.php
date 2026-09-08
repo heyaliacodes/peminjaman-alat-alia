@@ -49,5 +49,11 @@ class Peminjaman extends Model
             StatusPeminjaman::MenungguVerifikasi,
         ], true) && $this->tgl_harus_kembali->isPast();
     }
+
+    public function jatuhTempoBesok(): bool
+    {
+        return $this->status === StatusPeminjaman::Dipinjam
+            && $this->tgl_harus_kembali->isTomorrow();
+    }
 }
 
