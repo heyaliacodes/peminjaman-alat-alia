@@ -7,11 +7,13 @@ use App\Models\Peminjaman;
 use App\Services\Keranjang;
 use App\Services\PeminjamanService;
 use Illuminate\Validation\ValidationException;
+use App\Services\StatistikPeminjamService;
 
 class PeminjamanController extends Controller
 {
     public function __construct(
         private PeminjamanService $layanan,
+        private StatistikPeminjamService $layananStatistik,
         private Keranjang $keranjang
     ) {
     }
@@ -56,8 +58,9 @@ class PeminjamanController extends Controller
             ->where('user_id', auth()->id())
             ->orderByDesc('created_at')
             ->paginate(10);
+        $statistik = $this->layananStatistik->ringkasan(auth()->user());
 
-        return view('peminjaman.saya', compact('daftarPeminjaman'));
+        return view('peminjaman.saya', compact('daftarPeminjaman', 'statistik'));
     }
 
     public function rincian(Peminjaman $peminjaman)

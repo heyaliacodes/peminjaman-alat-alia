@@ -3,6 +3,8 @@
 @section('konten')
 <h4 class="mb-3">Pinjaman Saya</h4>
 
+@include('peminjaman.statistik-pribadi')
+
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
