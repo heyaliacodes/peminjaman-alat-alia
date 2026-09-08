@@ -19,7 +19,7 @@ class AlatRequest extends FormRequest
         $alatYangDiubah = $this->route('alat');
 
         return [
-            'kategori_id'   => ['required', 'exists:kategori, id'],
+            'kategori_id'   => ['required', 'exists:kategori,id'],
             'kode_alat'     => [
                 'required',
                 'string',

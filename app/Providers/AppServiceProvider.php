@@ -11,6 +11,8 @@ use App\Models\Alat;
 use App\Models\Kategori;
 use App\Models\User;
 use App\Observers\LogObserver;
+use App\View\Composers\NotifikasiNavbarComposer;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,5 +35,7 @@ class AppServiceProvider extends ServiceProvider
         Kategori::observe(LogObserver::class);
         Alat::observe(LogObserver::class);
         User::observe(LogObserver::class);
+
+        View::composer('layouts.navbar', NotifikasiNavbarComposer::class);
     }
 }

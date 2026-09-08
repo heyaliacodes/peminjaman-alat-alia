@@ -18,7 +18,16 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('pengguna.index') }}">Pengguna</a></li>
                 @endcan
                 @can('peminjaman.setujui')
-                    <li class="nav-item"><a class="nav-link" href="{{ route('persetujuan.antrian') }}">Persetujuan</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('persetujuan.antrian') }}">
+                        Persetujuan
+                            @if (($notifikasiNavbar['antrian_persetujuan'] ?? 0) > 0)
+                                <span class="badge bg-danger rounded-pill">
+                                    {{ $notifikasiNavbar['antrian_persetujuan'] }}
+                                </span>
+                            @endif
+                        </a>
+                    </li>
                 @endcan
                 @can('alat.lihat')
                     <li class="nav-item"><a class="nav-link" href="{{ route('katalog.daftar') }}">Katalog Alat</a></li>
@@ -33,16 +42,30 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('peminjaman.saya') }}">Pinjaman Saya</a>
+                        <a class="nav-link" href="{{ route('peminjaman.saya') }}">
+                        Pinjaman Saya
+                            @if (($notifikasiNavbar['jatuh_tempo_saya'] ?? 0) > 0)
+                                <span class="badge bg-warning text-dark rounded-pill">
+                                    {{ $notifikasiNavbar['jatuh_tempo_saya'] }}
+                                </span>
+                            @endif
+                        </a>
                     </li>
                 @endcan
                 @can('pengembalian.pantau')
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pengembalian.pantau') }}">Pemantauan</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pengembalian.antrian') }}">Verifikasi</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pengembalian.pantau') }}">Pemantauan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('pengembalian.antrian') }}">
+                        Verifikasi
+                            @if (($notifikasiNavbar['antrian_verifikasi'] ?? 0) > 0)
+                                <span class="badge bg-danger rounded-pill">
+                                    {{ $notifikasiNavbar['antrian_verifikasi'] }}
+                                </span>
+                            @endif
+                        </a>
+                    </li>
                 @endcan
                 @can('log.lihat')
                     <li class="nav-item">
