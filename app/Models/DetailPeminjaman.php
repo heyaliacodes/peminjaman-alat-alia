@@ -21,5 +21,10 @@ class DetailPeminjaman extends Model
     {
         return $this->belongsTo(Alat::class, 'alat_id');
     }
+
+    public function ulasan()
+    {
+        return $this->hasOne(UlasanAlat::class, 'detail_peminjaman_id');
+    }
 }
 

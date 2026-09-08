@@ -34,6 +34,14 @@
                         {{ $alat->kode_alat }} &middot; {{ $alat->kategori->nama }}
                     </p>
 
+                    @if ($alat->ulasan_count > 0)
+                        <span class="badge bg-warning text-dark">
+                            ★ {{ number_format($alat->ulasan_avg_rating, 1) }} ({{ $alat->ulasan_count }} ulasan)
+                        </span>
+                    @else
+                        <span class="badge bg-secondary">Belum ada ulasan</span>
+                    @endif
+
                     @if ($alat->stok_tersedia > 0)
                         <form method="POST" action="{{ route('katalog.tambah', $alat) }}"
                             class="row g-2">

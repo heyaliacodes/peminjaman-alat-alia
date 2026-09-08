@@ -47,6 +47,7 @@
                     <th>Kode</th>
                     <th>Nama Alat</th>
                     <th class="text-center">Jumlah</th>
+                    <th>Ulasan</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,6 +56,9 @@
                         <td>{{ $baris->alat->kode_alat }}</td>
                         <td>{{ $baris->alat->nama }}</td>
                         <td class="text-center">{{ $baris->jumlah }}</td>
+                        <td>
+                            @include('peminjaman.ulasan-baris', ['baris' => $baris, 'peminjaman' => $peminjaman])
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

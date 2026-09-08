@@ -13,6 +13,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\KoreksiPeminjamanController;
 use App\Http\Controllers\KoreksiPengembalianController;
 use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\UlasanAlatController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -145,6 +146,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [PengaturanController::class, 'form'])->name('form');
         Route::put('/', [PengaturanController::class, 'perbarui'])->name('perbarui');
     });
+
+    Route::get('/ulasan/{detail}/buat', [UlasanAlatController::class, 'formBuat'])->name('ulasan.buat');
+    Route::post('/ulasan/{detail}',     [UlasanAlatController::class, 'simpan'])->name('ulasan.simpan');
 
 });
 

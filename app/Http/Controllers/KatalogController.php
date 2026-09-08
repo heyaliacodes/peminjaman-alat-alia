@@ -19,6 +19,8 @@ class KatalogController extends Controller
         $kategoriId = $request->query('kategori_id');
 
         $daftarAlat = Alat::with('kategori')
+            ->withAvg('ulasan', 'rating')
+            ->withCount('ulasan')
             ->when($kataKunci, function ($query, $kataKunci) {
                 $query->where(function ($cabang) use ($kataKunci) {
                     $cabang->where('nama', 'like', '%' . $kataKunci . '%')
