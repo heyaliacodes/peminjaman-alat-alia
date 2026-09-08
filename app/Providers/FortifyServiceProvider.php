@@ -40,8 +40,9 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('login', function (Request $request) {
             // Karena Anda menggunakan username untuk login:
             $identifier = (string) $request->username;
+
             // Batasi 5 kali percobaan gagal per menit berdasarkan username dan IP address
-            return Limit::perMinute(5)->by($identifier  .  $request->ip());
+            return Limit::perMinute(5)->by($identifier . $request->ip());
         });
     }
 
@@ -49,7 +50,7 @@ class FortifyServiceProvider extends ServiceProvider
     {
         $pengguna = User::where('username', $request->username)->first();
 
-        // Cabang 1: user tidak di temukan atau password tidak cocok.
+        // Cabang 1: user tidak ditemukan atau password tidak cocok.
         if (! $pengguna || ! Hash::check($request->password, $pengguna->password)) {
             $this->catatLoginGagal($request);
 
@@ -67,11 +68,11 @@ class FortifyServiceProvider extends ServiceProvider
 
         // Cabang 3: kredensial cocok dan akun aktif.
         LogAktivitas::create([
-            'user_id'       => $pengguna->id,
-            'aksi'          => 'login',
-            'tabel_tujuan'  => 'users',
-            'deskripsi'     => 'Pengguna' . $pengguna->username . 'berhasil masuk',
-            'ip_address'    => $request->ip(),
+            'user_id'      => $pengguna->id,
+            'aksi'         => 'login',
+            'tabel_tujuan' => 'users',
+            'deskripsi'    => 'Pengguna ' . $pengguna->username . ' berhasil masuk',
+            'ip_address'   => $request->ip(),
         ]);
 
         return $pengguna;
@@ -80,11 +81,11 @@ class FortifyServiceProvider extends ServiceProvider
     private function catatLoginGagal(Request $request, ?int $penggunaId = null): void
     {
         LogAktivitas::create([
-            'user_id'       => $penggunaId,
-            'aksi'          => 'login_gagal',
-            'tabel_tujuan'  => 'users',
-            'deskripsi'     => 'Percobaan masuk gagal untuk username' . $request->username,
-            'ip_address'    => $request->ip(),
+            'user_id'      => $penggunaId,
+            'aksi'         => 'login_gagal',
+            'tabel_tujuan' => 'users',
+            'deskripsi'    => 'Percobaan masuk gagal untuk username ' . $request->username,
+            'ip_address'   => $request->ip(),
         ]);
     }
 }
