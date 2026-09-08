@@ -34,6 +34,22 @@
                         {{ $alat->kode_alat }} &middot; {{ $alat->kategori->nama }}
                     </p>
 
+                    <div class="progress mt-2" style="height: 6px;"
+                        title="{{ $alat->stok_tersedia }} dari {{ $alat->stok }} tersedia">
+                        <div class="progress-bar bg-{{ $alat->warna_stok }}" role="progressbar"
+                            style="width: {{ $alat->persentase_tersedia }}%"
+                            aria-valuenow="{{ $alat->persentase_tersedia }}" aria-valuemin="0" aria-valuemax="100">
+                        </div>
+                    </div>
+
+                    <div class="small mt-1">
+                        @if ($alat->stok_tersedia == 0)
+                            <span class="text-danger fw-semibold">Stok habis</span>
+                        @else
+                            <span class="text-muted">{{ $alat->stok_tersedia }} dari {{ $alat->stok }} tersedia</span>
+                        @endif
+                    </div>
+
                     @if ($alat->ulasan_count > 0)
                         <span class="badge bg-warning text-dark">
                             ★ {{ number_format($alat->ulasan_avg_rating, 1) }} ({{ $alat->ulasan_count }} ulasan)

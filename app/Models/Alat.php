@@ -27,4 +27,23 @@ class Alat extends Model
     {
         return $this->hasMany(UlasanAlat::class, 'alat_id');
     }
+
+    public function getPersentaseTersediaAttribute(): int
+    {
+        if ($this->stok <= 0) {
+            return 0;
+        }
+
+        return (int) min(100, round($this->stok_tersedia / $this->stok * 100));
+    }
+
+    public function getWarnaStokAttribute(): string
+    {
+        return match (true) {
+            $this->persentase_tersedia >= 50 => 'success',
+            $this->persentase_tersedia >= 20 => 'warning',
+            default => 'danger',
+        };
+    }
 }
+
