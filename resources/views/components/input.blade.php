@@ -1,7 +1,13 @@
 @props(['name', 'label', 'type' => 'text', 'value' => '', 'icon' => null])
 
 <div class="mb-3">
-    <label for="{{ $name }}" class="form-label">{{ $label }}</label>
+    <label for="{{ $name }}" class="form-label">
+        {{ $label }}
+        @if ($attributes->has('required'))
+            <span class="text-danger">*</span>
+        @endif
+    </label>
+
     <div class="input-group input-group-icon">
         @if ($icon)
             <span class="input-group-text"><i class="bi {{ $icon }}"></i></span>

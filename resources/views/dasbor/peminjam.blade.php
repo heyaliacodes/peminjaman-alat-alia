@@ -3,9 +3,15 @@
 @section('judul', 'Dasbor Peminjam')
 
 @section('konten')
-    <div class="mb-4">
-        <h4 class="fw-bold mb-1">Dasbor Peminjam</h4>
-        <p class="text-muted mb-0">Selamat datang, {{ auth()->user()->nama }}. Ini ringkasan peminjaman Anda.</p>
+    <div class="dasbor-hero">
+        <div>
+            <h4><x-sapaan-waktu />, {{ auth()->user()->nama }}</h4>
+            <p>Ini ringkasan peminjaman Anda.</p>
+        </div>
+        <div class="dasbor-hero__meta">
+            <i class="bi bi-calendar3"></i>
+            {{ now()->translatedFormat('l, d F Y') }}
+        </div>
     </div>
 
     @if ($jumlahJatuhTempo > 0)
@@ -19,38 +25,35 @@
     @endif
 
     <div class="row g-3 mb-4">
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-sm-6 col-xl-4">
             <x-stat-card icon="bi-journal-text" label="Kali Meminjam" :value="$statistik['total_pinjam']" variant="primary" />
         </div>
-        <div class="col-sm-6 col-xl-3">
-            <x-stat-card icon="bi-stopwatch" label="Tepat Waktu"
-                value="{{ $statistik['persen_tepat_waktu'] !== null ? $statistik['persen_tepat_waktu'] . '%' : '-' }}"
-                variant="success" />
-        </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-sm-6 col-xl-4">
             <x-stat-card icon="bi-cash-coin" label="Total Denda"
                 value="Rp {{ number_format($statistik['total_denda'], 0, ',', '.') }}"
                 variant="secondary" />
         </div>
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-sm-6 col-xl-4">
             <x-stat-card icon="bi-bell" label="Jatuh Tempo / Terlambat" :value="$jumlahJatuhTempo" variant="warning" />
         </div>
     </div>
 
-    <h6 class="text-uppercase text-muted small fw-bold mb-3">Akses Cepat</h6>
+    @php
+        $variantTepatWaktu = match(true) {
+            is_null($statistik['persen_tepat_waktu']) => 'secondary',
+            $statistik['persen_tepat_waktu'] >= 80 => 'success',
+            $statistik['persen_tepat_waktu'] >= 50 => 'warning',
+            default => 'danger',
+        };
+    @endphp
+
     <div class="row g-3">
-        @can('alat.lihat')
-            <div class="col-md-6 col-xl-4">
-                <x-shortcut-card icon="bi-grid" title="Jelajahi Katalog Alat" description="Lihat alat yang tersedia untuk dipinjam." href="{{ route('katalog.daftar') }}" variant="primary" />
-            </div>
-        @endcan
-        @can('peminjaman.ajukan')
-            <div class="col-md-6 col-xl-4">
-                <x-shortcut-card icon="bi-cart-plus" title="Ajukan Peminjaman" description="Lengkapi keperluan dan ajukan peminjaman baru." href="{{ route('peminjaman.ajukan') }}" variant="info" />
-            </div>
-        @endcan
-        <div class="col-md-6 col-xl-4">
-            <x-shortcut-card icon="bi-journal-text" title="Pinjaman Saya" description="Pantau status dan riwayat peminjaman Anda." href="{{ route('peminjaman.saya') }}" variant="secondary" />
+        <div class="col-lg-6">
+            <x-progress-stat
+                label="Ketepatan Waktu Pengembalian"
+                :persen="$statistik['persen_tepat_waktu']"
+                :variant="$variantTepatWaktu"
+                keterangan="Dihitung dari seluruh peminjaman Anda yang sudah selesai." />
         </div>
     </div>
 @endsection

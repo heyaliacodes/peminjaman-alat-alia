@@ -1,16 +1,17 @@
-@extends('layouts.utama')
+@extends('layouts.admin')
 
 @section('judul', 'Dasbor Admin')
 
 @section('konten')
-    <div class="d-flex flex-wrap justify-content-between align-items-end mb-4 gap-2">
+    <div class="dasbor-hero">
         <div>
-            <h4 class="fw-bold mb-1">Dasbor Admin</h4>
-            <p class="text-muted mb-0">Ringkasan operasional sistem peminjaman alat.</p>
+            <h4><x-sapaan-waktu />, {{ auth()->user()->nama }}</h4>
+            <p>Ringkasan operasional sistem peminjaman alat hari ini.</p>
         </div>
-        <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
-            <i class="bi bi-person-badge me-1"></i>{{ auth()->user()->nama }}
-        </span>
+        <div class="dasbor-hero__meta">
+            <i class="bi bi-calendar3"></i>
+            {{ now()->translatedFormat('l, d F Y') }}
+        </div>
     </div>
 
     <div class="row g-3 mb-4">
@@ -28,42 +29,22 @@
         </div>
     </div>
 
-    <h6 class="text-uppercase text-muted small fw-bold mb-3">Akses Cepat</h6>
+    @php
+        $variantKetersediaan = match(true) {
+            is_null($ringkasan['persentase_ketersediaan']) => 'secondary',
+            $ringkasan['persentase_ketersediaan'] >= 50 => 'success',
+            $ringkasan['persentase_ketersediaan'] >= 20 => 'warning',
+            default => 'danger',
+        };
+    @endphp
+
     <div class="row g-3">
-        @can('kategori.kelola')
-            <div class="col-md-6 col-xl-4">
-                <x-shortcut-card icon="bi-tags" title="Kelola Kategori" description="Atur kategori alat lab dan perkakas." href="{{ route('kategori.index') }}" variant="primary" />
-            </div>
-        @endcan
-        @can('alat.kelola')
-            <div class="col-md-6 col-xl-4">
-                <x-shortcut-card icon="bi-box-seam" title="Kelola Alat" description="Tambah, ubah, dan pantau stok alat." href="{{ route('alat.index') }}" variant="primary" />
-            </div>
-        @endcan
-        @can('user.kelola')
-            <div class="col-md-6 col-xl-4">
-                <x-shortcut-card icon="bi-people" title="Kelola Pengguna" description="Kelola akun admin, petugas, dan peminjam." href="{{ route('pengguna.index') }}" variant="info" />
-            </div>
-        @endcan
-        @can('peminjaman.kelola')
-            <div class="col-md-6 col-xl-4">
-                <x-shortcut-card icon="bi-pencil-square" title="Koreksi Peminjaman" description="Perbaiki data peminjaman yang keliru." href="{{ route('koreksi.peminjaman.daftar') }}" variant="secondary" />
-            </div>
-        @endcan
-        @can('pengembalian.kelola')
-            <div class="col-md-6 col-xl-4">
-                <x-shortcut-card icon="bi-pencil-square" title="Koreksi Pengembalian" description="Perbaiki data pengembalian yang keliru." href="{{ route('koreksi.pengembalian.daftar') }}" variant="secondary" />
-            </div>
-        @endcan
-        @can('log.lihat')
-            <div class="col-md-6 col-xl-4">
-                <x-shortcut-card icon="bi-journal-code" title="Log Aktivitas" description="Telusuri jejak aktivitas seluruh pengguna." href="{{ route('log.index') }}" variant="dark" />
-            </div>
-        @endcan
-        @can('pengaturan.kelola')
-            <div class="col-md-6 col-xl-4">
-                <x-shortcut-card icon="bi-gear" title="Pengaturan Sistem" description="Atur tarif denda dan batas hari pinjam." href="{{ route('pengaturan.form') }}" variant="dark" />
-            </div>
-        @endcan
+        <div class="col-lg-6">
+            <x-progress-stat
+                label="Ketersediaan Alat Keseluruhan"
+                :persen="$ringkasan['persentase_ketersediaan']"
+                :variant="$variantKetersediaan"
+                keterangan="Perbandingan total stok tersedia terhadap seluruh stok alat yang terdaftar." />
+        </div>
     </div>
 @endsection

@@ -193,3 +193,133 @@ body.bg-app {
     transform: translateY(-4px);
     box-shadow: var(--shadow-soft);
 }
+
+/* ===== Tombol kembali ===== */
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    color: var(--brand-700);
+    font-weight: 600;
+    font-size: .875rem;
+    text-decoration: none;
+    margin-bottom: 1rem;
+}
+.btn-back:hover { color: var(--brand-900); }
+
+/* ===== Sambutan dasbor ===== */
+.dasbor-hero {
+    background: linear-gradient(135deg, var(--brand-700) 0%, var(--brand-500) 100%);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 2rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.dasbor-hero h4 { margin-bottom: .25rem; font-weight: 700; }
+.dasbor-hero p { margin-bottom: 0; color: rgba(255, 255, 255, .85); }
+.dasbor-hero__meta {
+    background: rgba(255, 255, 255, .15);
+    border-radius: .75rem;
+    padding: .5rem 1rem;
+    font-size: .85rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    white-space: nowrap;
+}
+
+/* ===== Kartu bar progres ===== */
+.progress-stat {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 20px -10px rgba(30, 27, 75, .15);
+    padding: 1.25rem;
+    height: 100%;
+}
+.progress-stat__label { font-weight: 600; color: var(--brand-900); font-size: .9rem; }
+.progress-stat__value { font-weight: 700; color: var(--brand-900); }
+.progress-stat__ket { font-size: .78rem; color: #6b7280; margin-top: .5rem; }
+
+/* ===== Sidebar Admin ===== */
+.admin-shell { display: flex; min-height: 100vh; }
+.admin-sidebar {
+    width: 260px;
+    flex-shrink: 0;
+    background: #fff;
+    border-right: 1px solid #eef0f6;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+.admin-sidebar__brand { padding: 1.25rem 1.5rem; border-bottom: 1px solid #eef0f6; }
+.admin-sidebar__nav { flex-grow: 1; overflow-y: auto; padding: 1rem .75rem; }
+.admin-sidebar__section {
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: #9ca3af;
+    font-weight: 700;
+    margin: 1.25rem .75rem .5rem;
+}
+.admin-sidebar__section:first-child { margin-top: 0; }
+.admin-sidebar__link {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    padding: .6rem .75rem;
+    border-radius: .6rem;
+    color: #374151;
+    font-weight: 500;
+    font-size: .9rem;
+    text-decoration: none;
+    margin-bottom: .15rem;
+}
+.admin-sidebar__link i { font-size: 1rem; width: 1.1rem; text-align: center; }
+.admin-sidebar__link:hover { background: var(--brand-50); color: var(--brand-700); }
+.admin-sidebar__link.active { background: var(--brand-600); color: #fff; }
+.admin-sidebar__user {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid #eef0f6;
+}
+.avatar-circle--dark { background: var(--brand-50); color: var(--brand-600); }
+.btn-icon-plain { background: none; border: 0; color: #9ca3af; font-size: 1.1rem; }
+.btn-icon-plain:hover { color: #dc2626; }
+.admin-content { flex-grow: 1; min-width: 0; background: #f4f5fb; }
+.admin-sidebar__toggle {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1050;
+    width: 42px;
+    height: 42px;
+    border-radius: .6rem;
+    border: 0;
+    background: var(--brand-600);
+    color: #fff;
+    box-shadow: var(--shadow-soft);
+}
+@media (max-width: 991.98px) {
+    .admin-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 1040;
+        transform: translateX(-100%);
+        transition: transform .2s ease;
+        box-shadow: var(--shadow-soft);
+    }
+    .admin-sidebar.is-open { transform: translateX(0); }
+}
+@media (min-width: 992px) {
+    .admin-sidebar__toggle { display: none; }
+}
