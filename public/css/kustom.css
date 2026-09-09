@@ -1,0 +1,195 @@
+:root {
+    --brand-50:  #eef2ff;
+    --brand-100: #e0e7ff;
+    --brand-400: #818cf8;
+    --brand-500: #6366f1;
+    --brand-600: #4f46e5;
+    --brand-700: #4338ca;
+    --brand-900: #1e1b4b;
+
+    --radius-lg: 1rem;
+    --shadow-soft: 0 10px 30px -12px rgba(30, 27, 75, .25);
+}
+
+body.bg-app {
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    background-color: #f4f5fb;
+}
+
+/* ===== Navbar ===== */
+.navbar-modern {
+    background: linear-gradient(90deg, var(--brand-900) 0%, var(--brand-700) 60%, var(--brand-600) 100%);
+    border-bottom: 3px solid var(--brand-400);
+}
+.navbar-modern .nav-link {
+    color: rgba(255, 255, 255, .85);
+    font-weight: 500;
+}
+.navbar-modern .nav-link:hover,
+.navbar-modern .nav-link:focus {
+    color: #fff;
+}
+.navbar-modern .dropdown-menu {
+    border: 0;
+    border-radius: .75rem;
+    box-shadow: var(--shadow-soft);
+    padding: .5rem;
+    margin-top: .5rem;
+}
+.navbar-modern .dropdown-item {
+    border-radius: .5rem;
+    padding: .5rem .75rem;
+    font-size: .925rem;
+}
+.navbar-modern .dropdown-item:hover,
+.navbar-modern .dropdown-item:focus {
+    background: var(--brand-50);
+    color: var(--brand-700);
+}
+
+/* ===== Logo / merek ===== */
+.brand-mark {
+    width: 38px;
+    height: 38px;
+    border-radius: .65rem;
+    background: rgba(255, 255, 255, .12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    color: #fff;
+}
+.brand-wordmark {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: #fff;
+    letter-spacing: -.01em;
+}
+.brand-wordmark__accent { color: var(--brand-400); }
+
+/* Varian logo di atas latar terang (mis. panel login) */
+.brand-mark--light {
+    background: var(--brand-50);
+    color: var(--brand-600);
+}
+.brand-wordmark--dark,
+.brand-wordmark--dark .brand-wordmark__accent { color: var(--brand-900); }
+.brand-wordmark--dark .brand-wordmark__accent { color: var(--brand-600); }
+
+/* ===== Avatar pengguna ===== */
+.avatar-circle {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .18);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: .85rem;
+}
+
+/* ===== Kartu statistik & jalan pintas ===== */
+.icon-tile {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    flex-shrink: 0;
+}
+.stat-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 20px -10px rgba(30, 27, 75, .15);
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 100%;
+}
+.stat-card__value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--brand-900);
+    line-height: 1.2;
+}
+.stat-card__label { font-size: .85rem; color: #6b7280; }
+
+.shortcut-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 6px 20px -12px rgba(30, 27, 75, .12);
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    height: 100%;
+    color: var(--brand-900);
+    transition: transform .15s ease, box-shadow .15s ease, color .15s ease;
+}
+.shortcut-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 28px -12px rgba(30, 27, 75, .25);
+    color: var(--brand-700);
+}
+.shortcut-card__title { font-weight: 600; margin-bottom: .1rem; }
+.shortcut-card__desc { font-size: .8rem; color: #6b7280; }
+.shortcut-card__arrow { color: #c7c9e0; margin-left: auto; }
+
+/* ===== Formulir dengan ikon ===== */
+.input-group-icon .input-group-text {
+    background: #fff;
+    color: #9ca3af;
+    border-right: 0;
+}
+.input-group-icon .form-control { border-left: 0; }
+.input-group-icon .form-control:focus { box-shadow: none; border-color: #ced4da; }
+.input-group-icon:focus-within .input-group-text { color: var(--brand-600); }
+
+.btn-brand {
+    background: var(--brand-600);
+    border-color: var(--brand-600);
+    color: #fff;
+    font-weight: 600;
+    border-radius: .6rem;
+}
+.btn-brand:hover,
+.btn-brand:focus {
+    background: var(--brand-700);
+    border-color: var(--brand-700);
+    color: #fff;
+}
+
+/* ===== Halaman login ===== */
+.auth-shell {
+    min-height: calc(100vh - 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 0 2rem;
+}
+.auth-card { max-width: 960px; width: 100%; }
+.auth-brand-panel {
+    background: linear-gradient(160deg, var(--brand-900) 0%, var(--brand-700) 55%, var(--brand-500) 100%);
+    position: relative;
+    overflow: hidden;
+}
+.auth-feature-list li {
+    color: rgba(255, 255, 255, .92);
+    margin-bottom: .75rem;
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
+}
+.auth-feature-list i { color: var(--brand-400); margin-top: .15rem; }
+
+/* ===== Kartu alat di katalog (opsional, lihat 12.11) ===== */
+.tool-card { transition: transform .15s ease, box-shadow .15s ease; }
+.tool-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-soft);
+}

@@ -10,7 +10,7 @@
 <div class="row g-3">
     @forelse ($daftarAlat as $alat)
         <div class="col-md-6 col-lg-4">
-            <div class="card h-100">
+            <div class="card h-100 tool-card border-0 shadow-sm">
                 @if ($alat->foto)
                     <img src="{{ asset('gambar/alat/' . $alat->foto) }}"
                         class="card-img-top" style="height: 160px; object-fit: cover;"
