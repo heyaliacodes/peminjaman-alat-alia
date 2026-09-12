@@ -48,9 +48,17 @@
                         </button>
                     </form>
 
-                    <p class="text-center text-muted small mt-4 mb-0">
+                    <div class="d-grid mt-3">
+                        <a href="{{ route('pendaftaran.form') }}" class="btn btn-outline-brand py-2">
+                            <i class="bi bi-person-plus me-1"></i>Daftar Akun Peminjam Baru
+                        </a>
+                    </div>
+
+                    <p class="text-center text-muted small mt-3 mb-0">
+                        Sudah pernah mendaftar? <a href="{{ route('pendaftaran.status.form') }}">Cek status pendaftaran</a>.
                         Lupa kata sandi? Hubungi admin sekolah untuk mengatur ulang.
                     </p>
+                    
                 </div>
             </div>
 

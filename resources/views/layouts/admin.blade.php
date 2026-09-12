@@ -27,6 +27,12 @@
                     <a class="admin-sidebar__link {{ request()->routeIs('pengguna.*') ? 'active' : '' }}" href="{{ route('pengguna.index') }}">
                         <i class="bi bi-people"></i> Pengguna
                     </a>
+                    <a class="admin-sidebar__link {{ request()->routeIs('pendaftaran.admin.*') ? 'active' : '' }}" href="{{ route('pendaftaran.admin.daftar') }}">
+                        <i class="bi bi-person-plus"></i> Verifikasi Pendaftaran
+                        @if (($notifikasiNavbar['pendaftaran_menunggu'] ?? 0) > 0)
+                            <span class="badge bg-danger rounded-pill ms-auto">{{ $notifikasiNavbar['pendaftaran_menunggu'] }}</span>
+                        @endif
+                    </a>
                 @endcan
             @endcanany
 

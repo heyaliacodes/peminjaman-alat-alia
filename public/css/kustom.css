@@ -323,3 +323,19 @@ body.bg-app {
 @media (min-width: 992px) {
     .admin-sidebar__toggle { display: none; }
 }
+
+.btn-outline-brand {
+    border: 1px solid var(--brand-600);
+    color: var(--brand-600);
+    font-weight: 600;
+    border-radius: .6rem;
+    background: transparent;
+}
+.btn-outline-brand:hover {
+    background: var(--brand-50);
+    color: var(--brand-700);
+    border-color: var(--brand-600);
+}
+.text-brand { color: var(--brand-600); }
+.nav-pills .nav-link { color: var(--brand-900); font-weight: 500; }
+.nav-pills .nav-link.active { background: var(--brand-600); }

@@ -36,6 +36,6 @@ class AppServiceProvider extends ServiceProvider
         Alat::observe(LogObserver::class);
         User::observe(LogObserver::class);
 
-        View::composer('layouts.navbar', NotifikasiNavbarComposer::class);
+        View::composer(['layouts.navbar', 'layouts.admin'], NotifikasiNavbarComposer::class);
     }
 }

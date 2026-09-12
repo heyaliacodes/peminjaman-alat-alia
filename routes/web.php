@@ -17,23 +17,44 @@ use App\Http\Controllers\UlasanAlatController;
 use App\Services\NotifikasiNavbarService;
 use App\Services\RingkasanAdminService;
 use App\Services\StatistikPeminjamService;
+use App\Http\Controllers\PendaftaranController;
+use App\Http\Controllers\VerifikasiPendaftaranController;
 
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::middleware('throttle:5,1')->group(function () {
+        Route::get('/daftar', [PendaftaranController::class, 'form'])->name('pendaftaran.form');
+        Route::post('/daftar', [PendaftaranController::class, 'simpan'])->name('pendaftaran.simpan');
+        Route::get('/daftar/status', [PendaftaranController::class, 'statusForm'])->name('pendaftaran.status.form');
+        Route::post('/daftar/status', [PendaftaranController::class, 'statusCek'])->name('pendaftaran.status.cek');
+    });
+
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/admin/dasbor', function () {
-        return view('dasbor.admin');
+    Route::get('/admin/dasbor', function (RingkasanAdminService $layananRingkasan) {
+            return view('dasbor.admin', [
+                'ringkasan' => $layananRingkasan->ringkasan(),
+        ]);
+
     })->middleware('role:admin')->name('admin.dasbor');
 
-    Route::get('/petugas/dasbor', function () {
-        return view('dasbor.petugas');
+        Route::get('/petugas/dasbor', function (NotifikasiNavbarService $layananNotifikasi) {
+            return view('dasbor.petugas', [
+            'notifikasi' => $layananNotifikasi->untukPengguna(auth()->user()),
+        ]);
+
     })->middleware('role:petugas')->name('petugas.dasbor');
 
-    Route::get('/peminjam/dasbor', function () {
-        return view('dasbor.peminjam');
+        Route::get('/peminjam/dasbor', function (StatistikPeminjamService $layananStatistik, NotifikasiNavbarService $layananNotifikasi) {
+            $pengguna = auth()->user();
+
+        return view('dasbor.peminjam', [
+            'statistik'        => $layananStatistik->ringkasan($pengguna),
+            'jumlahJatuhTempo' => $layananNotifikasi->untukPengguna($pengguna)['jatuh_tempo_saya'],
+        ]);
+
     })->middleware('role:peminjam')->name('peminjam.dasbor');
 
     Route::resource('kategori', KategoriController::class)
@@ -133,6 +154,15 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('/{peminjaman}',   [KoreksiPeminjamanController::class, 'hapus'])->name('hapus');
         });
 
+    Route::middleware('permission:user.kelola')
+    ->prefix('admin/pendaftaran')
+    ->name('pendaftaran.admin.')
+    ->group(function () {
+        Route::get('/', [VerifikasiPendaftaranController::class, 'daftar'])->name('daftar');
+        Route::post('/{pendaftaran}/terima', [VerifikasiPendaftaranController::class, 'terima'])->name('terima');
+        Route::post('/{pendaftaran}/tolak', [VerifikasiPendaftaranController::class, 'tolak'])->name('tolak');
+    });
+
     Route::middleware('permission:pengembalian.kelola')
         ->prefix('koreksi/pengembalian')
         ->name('koreksi.pengembalian.')
@@ -153,28 +183,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ulasan/{detail}/buat', [UlasanAlatController::class, 'formBuat'])->name('ulasan.buat');
     Route::post('/ulasan/{detail}',     [UlasanAlatController::class, 'simpan'])->name('ulasan.simpan');
 
-        Route::get('/admin/dasbor', function (RingkasanAdminService $layananRingkasan) {
-            return view('dasbor.admin', [
-                'ringkasan' => $layananRingkasan->ringkasan(),
-        ]);
-
-    })->middleware('role:admin')->name('admin.dasbor');
-
-        Route::get('/petugas/dasbor', function (NotifikasiNavbarService $layananNotifikasi) {
-            return view('dasbor.petugas', [
-            'notifikasi' => $layananNotifikasi->untukPengguna(auth()->user()),
-        ]);
-
-    })->middleware('role:petugas')->name('petugas.dasbor');
-
-        Route::get('/peminjam/dasbor', function (StatistikPeminjamService $layananStatistik, NotifikasiNavbarService $layananNotifikasi) {
-            $pengguna = auth()->user();
-
-        return view('dasbor.peminjam', [
-            'statistik'        => $layananStatistik->ringkasan($pengguna),
-            'jumlahJatuhTempo' => $layananNotifikasi->untukPengguna($pengguna)['jatuh_tempo_saya'],
-        ]);
-    })->middleware('role:peminjam')->name('peminjam.dasbor');
-
 });
-
