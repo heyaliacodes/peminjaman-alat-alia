@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Storage;
 
 class AlatController extends Controller
 {
+    /**
+     * Menampilkan daftar alat dengan fitur pencarian & filter.
+     */
     public function index(Request $request)
     {
         $kataKunci  = $request->query('cari');
@@ -40,6 +43,9 @@ class AlatController extends Controller
         ));
     }
 
+    /**
+     * Menampilkan formulir tambah alat baru.
+     */
     public function create()
     {
         $alat = new Alat();
@@ -48,9 +54,13 @@ class AlatController extends Controller
         return view('alat.form', compact('alat', 'daftarKategori'));
     }
 
+    /**
+     * Menyimpan data alat baru ke database.
+     */
     public function store(AlatRequest $request)
     {
         $data = $request->validated();
+        $data['stok_tersedia'] = $data['stok'];
 
         if ($request->hasFile('foto')) {
             $namaFile = uniqid() . '.' . $request->file('foto')->extension();
@@ -65,6 +75,9 @@ class AlatController extends Controller
             ->with('sukses', 'Data alat berhasil ditambahkan.');
     }
 
+    /**
+     * Menampilkan formulir edit alat.
+     */
     public function edit(Alat $alat)
     {
         $daftarKategori = Kategori::orderBy('nama')->get();
@@ -72,9 +85,15 @@ class AlatController extends Controller
         return view('alat.form', compact('alat', 'daftarKategori'));
     }
 
+    /**
+     * Memperbarui data alat di database.
+     */
     public function update(AlatRequest $request, Alat $alat)
     {
         $data = $request->validated();
+
+        $selisihStok = $data['stok'] - $alat->stok;
+        $data['stok_tersedia'] = $alat->stok_tersedia + $selisihStok;
 
         if ($request->hasFile('foto')) {
             $this->hapusFoto($alat->foto);
@@ -90,6 +109,9 @@ class AlatController extends Controller
             ->with('sukses', 'Data alat berhasil diperbarui.');
     }
 
+    /**
+     * Menghapus data alat dari database.
+     */
     public function destroy(Alat $alat)
     {
         try {
@@ -107,6 +129,9 @@ class AlatController extends Controller
             ->with('sukses', 'Data alat berhasil dihapus.');
     }
 
+    /**
+     * Menghapus berkas foto dari penyimpanan.
+     */
     private function hapusFoto(?string $lokasiFoto): void
     {
         if ($lokasiFoto && Storage::disk('gambar')->exists('alat/' . $lokasiFoto)) {
