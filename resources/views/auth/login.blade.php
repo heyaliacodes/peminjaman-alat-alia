@@ -17,8 +17,28 @@
                             semuanya tercatat rapi dan bisa diakses kapan saja.
                         </p>
 
+                        <div class="row g-2 mb-4">
+                            <div class="col-4">
+                                <div class="auth-stat">
+                                    <div class="auth-stat__value">{{ $statistik['total_alat'] }}+</div>
+                                    <div class="auth-stat__label">Alat</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="auth-stat">
+                                    <div class="auth-stat__value">{{ $statistik['total_kategori'] }}</div>
+                                    <div class="auth-stat__label">Kategori</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="auth-stat">
+                                    <div class="auth-stat__value">{{ $statistik['total_peminjaman_selesai'] }}</div>
+                                    <div class="auth-stat__label">Selesai</div>
+                                </div>
+                            </div>
+                        </div>
+
                         <ul class="list-unstyled auth-feature-list">
-                            <li><i class="bi bi-check2-circle"></i> Pengajuan peminjaman tanpa kertas</li>
                             <li><i class="bi bi-check2-circle"></i> Notifikasi jatuh tempo otomatis</li>
                             <li><i class="bi bi-check2-circle"></i> Statistik peminjaman pribadi</li>
                         </ul>
@@ -30,12 +50,17 @@
 
             <div class="col-lg-6 bg-white">
                 <div class="p-4 p-md-5">
-                    <div class="d-lg-none mb-4">
-                        <x-logo light />
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div class="d-lg-none">
+                            <x-logo light />
+                        </div>
+                        <a href="{{ route('beranda') }}" class="small text-muted text-decoration-none ms-auto">
+                            <i class="bi bi-arrow-left me-1"></i>Beranda
+                        </a>
                     </div>
 
                     <h4 class="fw-bold mb-1">Masuk ke Sistem</h4>
-                    <p class="text-muted mb-4">Gunakan akun yang sudah didaftarkan oleh admin sekolah.</p>
+                    <p class="text-muted mb-4">Gunakan akun yang sudah didaftarkan atau diverifikasi oleh admin sekolah.</p>
 
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
@@ -58,7 +83,6 @@
                         Sudah pernah mendaftar? <a href="{{ route('pendaftaran.status.form') }}">Cek status pendaftaran</a>.
                         Lupa kata sandi? Hubungi admin sekolah untuk mengatur ulang.
                     </p>
-                    
                 </div>
             </div>
 

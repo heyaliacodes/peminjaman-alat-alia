@@ -19,10 +19,9 @@ use App\Services\RingkasanAdminService;
 use App\Services\StatistikPeminjamService;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\VerifikasiPendaftaranController;
+use App\Http\Controllers\BerandaController;
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 
 Route::middleware('throttle:5,1')->group(function () {
         Route::get('/daftar', [PendaftaranController::class, 'form'])->name('pendaftaran.form');

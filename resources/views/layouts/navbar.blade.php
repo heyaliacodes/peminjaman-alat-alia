@@ -56,6 +56,11 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('katalog.keranjang') ? 'active' : '' }}" href="{{ route('katalog.keranjang') }}">
                                 <i class="bi bi-cart3 me-1"></i>Keranjang
+                                @if (count(session('keranjang', [])) > 0)
+                                    <span class="badge bg-warning text-dark">
+                                        {{ count(session('keranjang', [])) }}
+                                    </span>
+                                @endif
                             </a>
                         </li>
                     @endcan

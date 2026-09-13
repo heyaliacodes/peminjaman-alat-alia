@@ -13,6 +13,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\LoginResponse as KontrakLoginResponse;
 use Laravel\Fortify\Fortify;
+use App\Services\RingkasanPublikService;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -31,7 +32,11 @@ class FortifyServiceProvider extends ServiceProvider
     {
         Fortify::username('username');
 
-        Fortify::loginView(fn () => view('auth.login'));
+        Fortify::loginView(function () {
+            return view('auth.login', [
+                'statistik' => app(RingkasanPublikService::class)->ringkasan(),
+            ]);
+        });
 
         Fortify::authenticateUsing(function (Request $request) {
             return $this->periksaKredensial($request);
