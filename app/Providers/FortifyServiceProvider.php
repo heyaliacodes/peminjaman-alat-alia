@@ -14,6 +14,8 @@ use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Contracts\LoginResponse as KontrakLoginResponse;
 use Laravel\Fortify\Fortify;
 use App\Services\RingkasanPublikService;
+use App\Http\Responses\LogoutResponse;
+use Laravel\Fortify\Contracts\LogoutResponse as KontrakLogoutResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,7 @@ class FortifyServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton(KontrakLoginResponse::class, LoginResponse::class);
+        $this->app->singleton(KontrakLogoutResponse::class, LogoutResponse::class);
     }
 
     /**

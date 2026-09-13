@@ -4,22 +4,31 @@
 @include('layouts.head')
 <body class="bg-app">
 
-    <header class="lp-header">
-        <div class="container d-flex align-items-center justify-content-between py-3">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-modern sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="{{ route('beranda') }}">
             <x-logo />
+        </a>
 
-            <nav class="d-none d-md-flex align-items-center gap-4">
-                <a href="#fitur" class="lp-nav-link">Fitur</a>
-                <a href="#cara-kerja" class="lp-nav-link">Cara Kerja</a>
-                <a href="#tentang" class="lp-nav-link">Tentang</a>
-            </nav>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuBeranda">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="d-flex align-items-center gap-2">
-                <a href="{{ route('login') }}" class="btn btn-outline-brand btn-sm px-3">Masuk</a>
-                <a href="{{ route('pendaftaran.form') }}" class="btn btn-brand btn-sm px-3">Daftar</a>
-            </div>
+        <div class="collapse navbar-collapse" id="menuBeranda">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+                <li class="nav-item"><a class="nav-link" href="#fitur">Fitur</a></li>
+                <li class="nav-item"><a class="nav-link" href="#cara-kerja">Cara Kerja</a></li>
+                <li class="nav-item"><a class="nav-link" href="#tentang">Tentang</a></li>
+                <li class="nav-item ms-lg-2">
+                    <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm px-3">Masuk</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('pendaftaran.form') }}" class="btn btn-light btn-sm px-3 text-brand fw-semibold">Daftar</a>
+                </li>
+            </ul>
         </div>
-    </header>
+    </div>
+    </nav>
 
     <main>
         <section class="lp-hero">
@@ -211,10 +220,10 @@
     </main>
 
     <footer class="lp-footer">
-        <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
-            <x-logo />
-            <p class="mb-0 small text-muted">&copy; {{ date('Y') }} SMKN 1 Padaherang. Sistem Peminjaman Alat.</p>
-        </div>
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <x-logo light />
+        <p class="mb-0 small text-muted">&copy; {{ date('Y') }} SMKN 1 Padaherang. Sistem Peminjaman Alat.</p>
+    </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

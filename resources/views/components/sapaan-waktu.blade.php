@@ -1,5 +1,5 @@
 @php
-    $jam = now()->hour;
+    $jam = now()->timezone('Asia/Jakarta')->hour;
     $teks = match(true) {
         $jam < 11 => 'Selamat pagi',
         $jam < 15 => 'Selamat siang',
