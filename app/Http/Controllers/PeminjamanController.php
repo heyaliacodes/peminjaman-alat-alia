@@ -64,8 +64,11 @@ class PeminjamanController extends Controller
 
         $statistik = $this->layananStatistik->ringkasan(auth()->user());
 
-            $jumlahJatuhTempo = $this->layananNotifikasi
-                ->untukPengguna(auth()->user())['jatuh_tempo_saya'];
+            // Ubah bagian ini di dalam PeminjamanController.php (sekitar baris 67-68)
+
+        $notifHasil = $this->layananNotifikasi->untukPengguna(auth()->user());
+
+        $jumlahJatuhTempo = ($notifHasil['terlambat_saya'] ?? 0) + ($notifHasil['jatuh_tempo_dekat_saya'] ?? 0);
 
         return view('peminjaman.saya', compact('daftarPeminjaman', 'statistik', 'jumlahJatuhTempo'));
 

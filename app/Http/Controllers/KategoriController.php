@@ -16,7 +16,8 @@ class KategoriController extends Controller
     {
         $kataKunci = $request->query('cari');
 
-        $daftarKategori = Kategori::withCount('daftarAlat')
+        $daftarKategori = Kategori::with('daftarAlat')
+            ->withCount('daftarAlat')
             ->when($kataKunci, function ($query, $kataKunci) {
                 $query->where('nama', 'like', '%' . $kataKunci . '%');
             })
@@ -74,7 +75,7 @@ class KategoriController extends Controller
 
         return redirect()
             ->route('kategori.index')
-            ->with('sukses', 'Kategori berhasil ditambahkan.');
+            ->with('sukses', 'Kategori berhasil diperbarui.');
     }
 
     /**

@@ -3,7 +3,7 @@
         <div class="card text-center h-100">
             <div class="card-body">
                 <div class="display-6">{{ $statistik['total_pinjam'] }}</div>
-                <div class="text-muted small">Kali Meminjam</div>
+                <div class="text-muted small">Total Peminjaman Selesai</div>
             </div>
         </div>
     </div>

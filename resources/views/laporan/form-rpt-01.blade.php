@@ -21,9 +21,10 @@
                     @endforeach
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary w-100">Cetak PDF</button>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary w-100">Cetak PDF</button>
+                <button type="submit" formaction="{{ route('laporan.peminjaman.excel') }}" formtarget="_self" class="btn btn-success w-100">Download Excel</button>
+            </div>
         </form>
     </div>
 </div>
-
-            

@@ -12,6 +12,9 @@ class NotifikasiNavbarService
 {
     public function untukPengguna(User $pengguna): array
     {
+        $hariIni = now()->toDateString();
+        $besok = now()->addDay()->toDateString();
+
         return [
             'antrian_persetujuan' => $pengguna->can('peminjaman.setujui')
                 ? Peminjaman::where('status', StatusPeminjaman::Diajukan)->count()
@@ -25,9 +28,16 @@ class NotifikasiNavbarService
                 ? PendaftaranAkun::where('status', StatusPendaftaran::Menunggu)->count()
                 : null,
 
-            'jatuh_tempo_saya' => Peminjaman::where('user_id', $pengguna->id)
+            // Peminjaman yang sudah lewat dari tanggal harus kembali (Terlambat)
+            'terlambat_saya' => Peminjaman::where('user_id', $pengguna->id)
                 ->where('status', StatusPeminjaman::Dipinjam)
-                ->whereDate('tgl_harus_kembali', '<=', now()->addDay())
+                ->whereDate('tgl_harus_kembali', '<', $hariIni)
+                ->count(),
+
+            // Peminjaman yang jatuh tempo hari ini atau besok
+            'jatuh_tempo_dekat_saya' => Peminjaman::where('user_id', $pengguna->id)
+                ->where('status', StatusPeminjaman::Dipinjam)
+                ->whereBetween('tgl_harus_kembali', [$hariIni, $besok])
                 ->count(),
         ];
     }

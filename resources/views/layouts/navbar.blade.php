@@ -9,7 +9,8 @@
                 @php
                     $totalNotifikasi = ($notifikasiNavbar['antrian_persetujuan'] ?? 0)
                         + ($notifikasiNavbar['antrian_verifikasi'] ?? 0)
-                        + ($notifikasiNavbar['jatuh_tempo_saya'] ?? 0)
+                        + ($notifikasiNavbar['terlambat_saya'] ?? 0)
+                        + ($notifikasiNavbar['jatuh_tempo_dekat_saya'] ?? 0)
                         + ($notifikasiNavbar['disetujui_saya'] ?? 0)
                         + ($notifikasiNavbar['ditolak_saya'] ?? 0);
                 @endphp
@@ -74,11 +75,23 @@
                             </a>
                         @endif
 
-                        @if (($notifikasiNavbar['jatuh_tempo_saya'] ?? 0) > 0)
+                        {{-- NOTIFIKASI TERLAMBAT (SUDAH LEWAT TENGGAT) --}}
+                        @if (($notifikasiNavbar['terlambat_saya'] ?? 0) > 0)
+                            <a href="{{ route('peminjaman.saya') }}" class="notif-item text-decoration-none">
+                                <span class="notif-item__icon bg-danger-subtle text-danger"><i class="bi bi-exclamation-octagon"></i></span>
+                                <span>
+                                    <strong class="d-block text-danger">{{ $notifikasiNavbar['terlambat_saya'] }} peminjaman terlambat</strong>
+                                    <span class="small text-muted">Sudah melewati batas pengembalian</span>
+                                </span>
+                            </a>
+                        @endif
+
+                        {{-- NOTIFIKASI JATUH TEMPO DEKAT (HARI INI / BESOK) --}}
+                        @if (($notifikasiNavbar['jatuh_tempo_dekat_saya'] ?? 0) > 0)
                             <a href="{{ route('peminjaman.saya') }}" class="notif-item text-decoration-none">
                                 <span class="notif-item__icon bg-warning-subtle text-warning"><i class="bi bi-exclamation-triangle"></i></span>
                                 <span>
-                                    <strong class="d-block text-dark">{{ $notifikasiNavbar['jatuh_tempo_saya'] }} peminjaman jatuh tempo</strong>
+                                    <strong class="d-block text-dark">{{ $notifikasiNavbar['jatuh_tempo_dekat_saya'] }} peminjaman jatuh tempo</strong>
                                     <span class="small text-muted">Segera dikembalikan</span>
                                 </span>
                             </a>
@@ -176,7 +189,8 @@
                             <a class="nav-link {{ request()->routeIs('peminjaman.saya') || request()->routeIs('peminjaman.rincian') ? 'active' : '' }}" href="{{ route('peminjaman.saya') }}">
                                 <i class="bi bi-journal-text me-1"></i>Pinjaman Saya
                                 @php
-                                    $notifPeminjamMenu = ($notifikasiNavbar['jatuh_tempo_saya'] ?? 0)
+                                    $notifPeminjamMenu = ($notifikasiNavbar['terlambat_saya'] ?? 0)
+                                        + ($notifikasiNavbar['jatuh_tempo_dekat_saya'] ?? 0)
                                         + ($notifikasiNavbar['disetujui_saya'] ?? 0)
                                         + ($notifikasiNavbar['ditolak_saya'] ?? 0);
                                 @endphp

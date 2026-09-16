@@ -26,7 +26,7 @@
 
     <div class="row g-3 mb-4">
         <div class="col-sm-6 col-xl-4">
-            <x-stat-card icon="bi-journal-text" label="Kali Meminjam" :value="$statistik['total_pinjam']" variant="primary" />
+            <x-stat-card icon="bi-journal-text" label="Total Peminjaman Selesai" :value="$statistik['total_pinjam']" variant="primary" />
         </div>
         <div class="col-sm-6 col-xl-4">
             <x-stat-card icon="bi-cash-coin" label="Total Denda"

@@ -47,13 +47,15 @@ Route::middleware(['auth'])->group(function () {
     })->middleware('role:petugas')->name('petugas.dasbor');
 
         Route::get('/peminjam/dasbor', function (StatistikPeminjamService $layananStatistik, NotifikasiNavbarService $layananNotifikasi) {
-            $pengguna = auth()->user();
+    $pengguna = auth()->user();
+    
+    $notif = $layananNotifikasi->untukPengguna($pengguna);
+    $jumlahJatuhTempo = ($notif['terlambat_saya'] ?? 0) + ($notif['jatuh_tempo_dekat_saya'] ?? 0);
 
-        return view('dasbor.peminjam', [
-            'statistik'        => $layananStatistik->ringkasan($pengguna),
-            'jumlahJatuhTempo' => $layananNotifikasi->untukPengguna($pengguna)['jatuh_tempo_saya'],
+    return view('dasbor.peminjam', [
+        'statistik'        => $layananStatistik->ringkasan($pengguna),
+        'jumlahJatuhTempo' => $jumlahJatuhTempo,
         ]);
-
     })->middleware('role:peminjam')->name('peminjam.dasbor');
 
     Route::resource('kategori', KategoriController::class)
@@ -72,8 +74,8 @@ Route::middleware(['auth'])->group(function () {
         ->prefix('katalog')
         ->name('katalog.')
         ->group(function () {
-            Route::get('/',               [KatalogController::class, 'katalog'])->name('daftar');
-            Route::get('/keranjang',      [KatalogController::class, 'lihatKeranjang'])->name('keranjang');
+            Route::get('/',                [KatalogController::class, 'katalog'])->name('daftar');
+            Route::get('/keranjang',       [KatalogController::class, 'lihatKeranjang'])->name('keranjang');
             Route::post('/{alat}/tambah', [KatalogController::class, 'tambahKeKeranjang'])->name('tambah');
             Route::put('/{alat}/jumlah',  [KatalogController::class, 'ubahJumlah'])->name('ubah-jumlah');
             Route::delete('/{alatId}/hapus', [KatalogController::class, 'hapusDariKeranjang'])->name('hapus');
@@ -137,17 +139,20 @@ Route::middleware(['auth'])->group(function () {
         ->prefix('laporan')
         ->name('laporan.')
         ->group(function () {
-            Route::get('/',              [LaporanController::class, 'form'])->name('form');
+            Route::get('/',               [LaporanController::class, 'form'])->name('form');
             Route::get('/peminjaman',    [LaporanController::class, 'peminjaman'])->name('peminjaman');
             Route::get('/pengembalian',  [LaporanController::class, 'pengembalian'])->name('pengembalian');
             Route::get('/stok',          [LaporanController::class, 'stok'])->name('stok');
+            Route::get('/peminjaman/excel', [LaporanController::class, 'exportPeminjaman'])->name('peminjaman.excel');
+            Route::get('/pengembalian/excel', [LaporanController::class, 'exportPengembalian'])->name('pengembalian.excel');
+            Route::get('/stok/excel', [LaporanController::class, 'exportStok'])->name('stok.excel');
         });
 
     Route::middleware('permission:peminjaman.kelola')
         ->prefix('koreksi/peminjaman')
         ->name('koreksi.peminjaman.')
         ->group(function () {
-            Route::get('/',                  [KoreksiPeminjamanController::class, 'daftar'])->name('daftar');
+            Route::get('/',                      [KoreksiPeminjamanController::class, 'daftar'])->name('daftar');
             Route::get('/{peminjaman}/ubah', [KoreksiPeminjamanController::class, 'formUbah'])->name('ubah');
             Route::put('/{peminjaman}',      [KoreksiPeminjamanController::class, 'perbarui'])->name('perbarui');
             Route::delete('/{peminjaman}',   [KoreksiPeminjamanController::class, 'hapus'])->name('hapus');
