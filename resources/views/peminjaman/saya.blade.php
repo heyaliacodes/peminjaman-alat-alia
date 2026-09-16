@@ -7,7 +7,7 @@
 
     @if ($jumlahJatuhTempo > 0)
         <div class="alert alert-warning">
-            Anda punya {{ $jumlahJatuhTempo }} peminjaman yang jatuh tempo besok atau sudah terlambat.
+            Anda punya {{ $jumlahJatuhTempo }} peminjaman yang jatuh tempo hari ini, besok atau sudah terlambat.
             Periksa tabel di bawah dan segera ajukan pengembalian.
         </div>
     @endif

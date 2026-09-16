@@ -18,11 +18,15 @@
                 <td>{{ $peminjaman->peminjam->nama }}</td>
                 <td>
                     {{ $peminjaman->tgl_harus_kembali->format('d/m/Y') }}
-                    @if ($peminjaman->lewatTenggat())
-                        <span class="badge bg-danger ms-1">
-                            Terlambat {{ (int) $peminjaman->tgl_harus_kembali->diffInDays(now()) }} hari
-                        </span>
-                    @endif
+                        @if ($peminjaman->lewatTenggat())
+                            <span class="badge bg-danger">
+                                Terlambat {{ $peminjaman->tgl_harus_kembali->diffInDays(now()) }} hari
+                            </span>
+                        @elseif ($peminjaman->jatuhTempoHariIni())
+                            <span class="badge bg-danger ms-1">Jatuh tempo hari ini</span>
+                        @elseif ($peminjaman->jatuhTempoBesok())
+                            <span class="badge bg-warning text-dark">Jatuh tempo besok</span>
+                        @endif
                 </td>
                 <td>
                     {{-- Tampilkan jumlah total alat di atas --}}

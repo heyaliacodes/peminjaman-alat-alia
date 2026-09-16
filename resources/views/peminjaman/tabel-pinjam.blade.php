@@ -22,6 +22,10 @@
                             </span>
                         @elseif ($peminjaman->jatuhTempoBesok())
                             <span class="badge bg-warning text-dark">Jatuh tempo besok</span>
+                        @elseif ($peminjaman->jatuhTempoHariIni())
+                            <span class="badge bg-danger">Jatuh tempo hari ini</span>
+                        @elseif ($peminjaman->jatuhTempoBesok())
+                            <span class="badge bg-warning text-dark">Jatuh tempo besok</span>
                         @endif
                 </td>
                 <td class="text-center">{{ $peminjaman->detail->count() }}</td>

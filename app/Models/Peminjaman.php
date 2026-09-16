@@ -47,13 +47,19 @@ class Peminjaman extends Model
         return in_array($this->status, [
             StatusPeminjaman::Dipinjam,
             StatusPeminjaman::MenungguVerifikasi,
-        ], true) && $this->tgl_harus_kembali->isPast();
+        ], true) && $this->tgl_harus_kembali->isBefore(today());
     }
 
     public function jatuhTempoBesok(): bool
     {
         return $this->status === StatusPeminjaman::Dipinjam
             && $this->tgl_harus_kembali->isTomorrow();
+    }
+
+    public function jatuhTempoHariIni(): bool
+    {
+        return $this->status === StatusPeminjaman::Dipinjam
+        && $this->tgl_harus_kembali->isToday();
     }
 }
 
